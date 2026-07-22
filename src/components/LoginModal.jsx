@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/lib/AuthContext';
 import { base44 } from '@/api/base44Client';
 import { X } from 'lucide-react';
@@ -94,6 +95,12 @@ export default function LoginModal({ open, onClose }) {
             {loading ? 'Channeling…' : 'Enter'}
           </button>
         </form>
+        <p className="text-center text-xs text-[#5C4A3E]/70 mt-4">
+          No account yet?{' '}
+          <Link to="/register" onClick={onClose} className="text-[#3E7C85] hover:text-[#2D5A60] font-600">
+            Register here
+          </Link>
+        </p>
       </div>
     </div>
   );
