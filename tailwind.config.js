@@ -67,6 +67,18 @@ module.exports = {
   			display: ['var(--font-display)'],
   			mono: ['var(--font-mono)']
   		},
+  		fontWeight: {
+  			'500': '500',
+  			'600': '600',
+  			'700': '700'
+  		},
+  		borderWidth: {
+  			'3': '3px'
+  		},
+  		spacing: {
+  			'4.5': '1.125rem',
+  			'5.5': '1.375rem'
+  		},
   		keyframes: {
   			'accordion-down': {
   				from: {
