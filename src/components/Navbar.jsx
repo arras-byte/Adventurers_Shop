@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '@/lib/AuthContext';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { ScrollText, LogOut, ShieldCheck } from 'lucide-react';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const { isAuthenticated, logout } = useAuth();
+  const { isUnlocked, lock } = useAdminAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function Navbar() {
         <nav className="flex items-center gap-7">
           {navLink('/', 'Home')}
           {navLink('/blog', 'Ledger')}
-          {isAuthenticated && (
+          {isUnlocked && (
             <div className="flex items-center gap-4">
               <Link
                 to="/blog/new"
@@ -63,7 +63,7 @@ export default function Navbar() {
                 New Post
               </Link>
               <button
-                onClick={() => logout(false)}
+                onClick={() => lock()}
                 title="Sign out"
                 className="text-[#F4EBD0]/50 hover:text-[#F4EBD0] transition-colors"
               >

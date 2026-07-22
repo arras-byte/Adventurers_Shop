@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
-import { useAuth } from '@/lib/AuthContext';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
+import { blogAdminCall } from '@/lib/adminAuth';
 import { GAME } from '@/lib/gameData';
 import RichTextEditor from '@/components/RichTextEditor';
 import { ArrowLeft, Save, Trash2, Loader2, Eye, ImagePlus } from 'lucide-react';
@@ -9,7 +10,7 @@ import { ArrowLeft, Save, Trash2, Loader2, Eye, ImagePlus } from 'lucide-react';
 export default function BlogEditor() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isAuthenticated, isLoadingAuth } = useAuth();
+  const { isUnlocked } = useAdminAuth();
   const isEdit = Boolean(id);
 
   const [title, setTitle] = useState('');
@@ -79,10 +80,10 @@ export default function BlogEditor() {
     };
     try {
       if (isEdit) {
-        await base44.entities.BlogPost.update(id, payload);
+        await blogAdminCall('update', { id, data: payload });
       } else {
-        const created = await base44.entities.BlogPost.create(payload);
-        navigate(`/blog/${created.id}`);
+        const result = await blogAdminCall('create', { data: payload });
+        navigate(`/blog/${result.post.id}`);
         return;
       }
       navigate(`/blog/${id}`);
@@ -98,22 +99,14 @@ export default function BlogEditor() {
     if (!isEdit) return;
     if (!window.confirm('Delete this entry permanently?')) return;
     try {
-      await base44.entities.BlogPost.delete(id);
+      await blogAdminCall('delete', { id });
       navigate('/blog');
     } catch (err) {
       console.error('Delete failed:', err);
     }
   };
 
-  if (isLoadingAuth) {
-    return (
-      <div className="flex justify-center py-32">
-        <div className="w-8 h-8 border-3 border-[#C89116]/20 border-t-[#C89116] rounded-full animate-spin" />
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
+  if (!isUnlocked) {
     return (
       <div className="max-w-md mx-auto px-5 py-32 text-center">
         <h1 className="font-heading text-2xl text-[#F4EBD0] mb-3">Artisan's eyes only</h1>

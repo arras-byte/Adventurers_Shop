@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
-import { useAuth } from '@/lib/AuthContext';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { GAME } from '@/lib/gameData';
 import BlogPostCard from '@/components/BlogPostCard';
 import { PenSquare, ScrollText } from 'lucide-react';
 
 export default function Blog() {
-  const { isAuthenticated } = useAuth();
+  const { isUnlocked } = useAdminAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
       try {
-        const filter = isAuthenticated ? {} : { published: true };
+        const filter = isUnlocked ? {} : { published: true };
         const data = await base44.entities.BlogPost.filter(filter, '-created_date', 50);
         setPosts(data || []);
       } catch (err) {
@@ -25,7 +25,7 @@ export default function Blog() {
       }
     };
     load();
-  }, [isAuthenticated]);
+  }, [isUnlocked]);
 
   return (
     <div>
@@ -53,7 +53,7 @@ export default function Blog() {
               A chronological record of development updates, patch notes, and behind-the-scenes
               looks at Adventurer's Shop.
             </p>
-            {isAuthenticated && (
+            {isUnlocked && (
               <Link
                 to="/blog/new"
                 className="inline-flex items-center gap-2 mt-6 bg-[#C89116] hover:bg-[#E0A82E] text-[#1A120B] font-heading text-sm px-5 py-2.5 rounded transition-colors"
@@ -76,7 +76,7 @@ export default function Blog() {
             <div className="vellum vellum-edge rounded-lg p-16 text-center max-w-md mx-auto">
               <p className="text-[#2D241E] font-heading text-xl mb-2">No entries yet</p>
               <p className="text-sm text-[#5C4A3E]/70">
-                {isAuthenticated
+                {isUnlocked
                   ? 'Click "New Entry" above to write your first devlog post.'
                   : 'Check back soon for development updates.'}
               </p>

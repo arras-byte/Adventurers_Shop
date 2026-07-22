@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '@/lib/AuthContext';
-import { base44 } from '@/api/base44Client';
+import { adminAuth, blogAdminCall } from '@/lib/adminAuth';
 import { X } from 'lucide-react';
 
 export default function LoginModal({ open, onClose }) {
-  const { checkUserAuth } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [passphrase, setPassphrase] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!open) {
-      setEmail('');
-      setPassword('');
+      setPassphrase('');
       setError('');
     }
   }, [open]);
@@ -26,16 +21,14 @@ export default function LoginModal({ open, onClose }) {
     setError('');
     setLoading(true);
     try {
-      await base44.auth.loginViaEmailPassword(email, password);
-      await checkUserAuth();
+      await blogAdminCall('verify', { passphrase });
+      adminAuth.unlock(passphrase);
       onClose();
     } catch (err) {
       setError(
-        err?.status === 401
-          ? 'Invalid credentials.'
-          : err?.status === 403
-          ? 'Email not verified. Check your inbox for an OTP code.'
-          : err?.message || 'Login failed. Please try again.'
+        err?.status === 403
+          ? 'Wrong passphrase.'
+          : 'Something went wrong. Try again.'
       );
     } finally {
       setLoading(false);
@@ -68,20 +61,12 @@ export default function LoginModal({ open, onClose }) {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
+            type="password"
+            value={passphrase}
+            onChange={(e) => setPassphrase(e.target.value)}
+            placeholder="Passphrase"
             required
             autoFocus
-            className="w-full bg-transparent border-b border-[#C89116]/30 px-0 py-2 text-[#2D241E] placeholder-[#5C4A3E]/40 focus:border-[#3E7C85] focus:outline-none transition-colors text-sm"
-          />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
             className="w-full bg-transparent border-b border-[#C89116]/30 px-0 py-2 text-[#2D241E] placeholder-[#5C4A3E]/40 focus:border-[#3E7C85] focus:outline-none transition-colors text-sm"
           />
           {error && (
@@ -95,12 +80,6 @@ export default function LoginModal({ open, onClose }) {
             {loading ? 'Channeling…' : 'Enter'}
           </button>
         </form>
-        <p className="text-center text-xs text-[#5C4A3E]/70 mt-4">
-          No account yet?{' '}
-          <Link to="/register" onClick={onClose} className="text-[#3E7C85] hover:text-[#2D5A60] font-600">
-            Register here
-          </Link>
-        </p>
       </div>
     </div>
   );

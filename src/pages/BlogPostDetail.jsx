@@ -3,14 +3,14 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { base44 } from '@/api/base44Client';
-import { useAuth } from '@/lib/AuthContext';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { GAME } from '@/lib/gameData';
 import { ArrowLeft, PenSquare, Calendar, User } from 'lucide-react';
 
 export default function BlogPostDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { isUnlocked } = useAdminAuth();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
@@ -99,7 +99,7 @@ export default function BlogPostDetail() {
                 Draft
               </span>
             )}
-            {isAuthenticated && (
+            {isUnlocked && (
               <button
                 onClick={() => navigate(`/blog/${post.id}/edit`)}
                 className="ml-auto flex items-center gap-1.5 text-[#C89116] hover:text-[#8B6510] font-600 transition-colors"
