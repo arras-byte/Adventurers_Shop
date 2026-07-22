@@ -5,7 +5,7 @@ import { GAME } from '@/lib/gameData';
 import { PenLine } from 'lucide-react';
 
 export default function BlogPostCard({ post }) {
-  const cover = post.cover_image || GAME.blogHeaderImage;
+  const cover = post.cover_image || GAME.assets.libraryHeader;
   const date = post.created_date ? format(new Date(post.created_date), 'MMM d, yyyy') : '';
 
   return (

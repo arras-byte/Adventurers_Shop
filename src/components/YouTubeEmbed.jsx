@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { GAME } from '@/lib/gameData';
 import { Play } from 'lucide-react';
 
-export default function YouTubeEmbed({ className = '' }) {
+export default function YouTubeEmbed({ className = '', thumbnail = null }) {
   const [playing, setPlaying] = useState(false);
+  const thumb = thumbnail || GAME.assets.youtubeThumb;
 
   if (playing) {
     return (
@@ -28,19 +29,16 @@ export default function YouTubeEmbed({ className = '' }) {
       style={{ aspectRatio: '16 / 9' }}
     >
       <img
-        src={GAME.heroImage}
-        alt="Adventurer's Shop trailer thumbnail"
+        src={thumb}
+        alt="Adventurer's Shop trailer"
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#1A120B]/80 via-transparent to-[#1A120B]/30" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#1A120B]/70 via-transparent to-transparent" />
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="w-16 h-16 rounded-full bg-[#C89116]/90 flex items-center justify-center shadow-lg group-hover:bg-[#E0A82E] group-hover:scale-110 transition-all duration-300">
           <Play className="w-7 h-7 text-[#1A120B] ml-1" fill="currentColor" />
         </div>
       </div>
-      <p className="absolute bottom-4 left-5 text-[#F4EBD0] font-heading text-sm tracking-wide">
-        ▸ Watch the First Trailer
-      </p>
     </button>
   );
 }

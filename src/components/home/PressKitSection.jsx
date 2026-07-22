@@ -24,10 +24,14 @@ export default function PressKitSection() {
           <div className="relative">
             <div className="vellum vellum-edge rounded-lg overflow-hidden" style={{ aspectRatio: '4 / 3' }}>
               <img
-                src={GAME.pressKitImage}
-                alt="Press kit materials"
+                src={GAME.assets.capsuleMain}
+                alt="Adventurer's Shop key art"
                 className="w-full h-full object-cover"
               />
+            </div>
+            {/* Small capsule peeking from corner */}
+            <div className="absolute -bottom-5 -right-5 vellum vellum-edge rounded overflow-hidden shadow-xl hidden sm:block" style={{ width: '140px' }}>
+              <img src={GAME.assets.logoSmall} alt="Logo" className="w-full" />
             </div>
           </div>
 

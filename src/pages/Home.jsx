@@ -5,8 +5,11 @@ import { GAME } from '@/lib/gameData';
 import { base44 } from '@/api/base44Client';
 import HeroSection from '@/components/home/HeroSection';
 import GameInfoSection from '@/components/home/GameInfoSection';
+import CraftingSection from '@/components/home/CraftingSection';
+import ScreenshotsSection from '@/components/home/ScreenshotsSection';
 import PressKitSection from '@/components/home/PressKitSection';
 import SteamWidget from '@/components/SteamWidget';
+import YouTubeEmbed from '@/components/YouTubeEmbed';
 import BlogPostCard from '@/components/BlogPostCard';
 import { Store, ArrowRight } from 'lucide-react';
 
@@ -36,8 +39,23 @@ export default function Home() {
     <div>
       <HeroSection />
 
+      {/* Trailer */}
+      <section className="py-16 sm:py-20">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8">
+          <div className="text-center mb-8">
+            <span className="text-[#3E7C85] text-xs tracking-[0.3em] uppercase mb-2 block">
+              First Look
+            </span>
+            <h2 className="font-heading text-2xl sm:text-3xl font-700 text-[#F4EBD0]">
+              Watch the Trailer
+            </h2>
+          </div>
+          <YouTubeEmbed />
+        </div>
+      </section>
+
       {/* Steam Widget Band */}
-      <section className="relative -mt-px py-12 border-y border-[#C89116]/15 bg-[#150E08]/60">
+      <section className="relative py-12 border-y border-[#C89116]/15 bg-[#150E08]/60">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="grid lg:grid-cols-[1fr_2fr] gap-8 items-center">
             <div>
@@ -66,6 +84,8 @@ export default function Home() {
       </section>
 
       <GameInfoSection />
+      <CraftingSection />
+      <ScreenshotsSection />
 
       {/* Latest Blog Posts */}
       <section className="py-20 sm:py-28">

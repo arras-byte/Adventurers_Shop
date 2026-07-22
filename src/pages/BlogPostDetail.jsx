@@ -55,7 +55,7 @@ export default function BlogPostDetail() {
     );
   }
 
-  const cover = post.cover_image || GAME.blogHeaderImage;
+  const cover = post.cover_image || GAME.assets.libraryHeader;
   const date = post.created_date ? format(new Date(post.created_date), 'MMMM d, yyyy') : '';
 
   return (

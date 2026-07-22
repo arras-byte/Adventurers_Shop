@@ -33,7 +33,7 @@ export default function Blog() {
       <section className="relative overflow-hidden pt-16 pb-12">
         <div className="absolute inset-0">
           <img
-            src={GAME.blogHeaderImage}
+            src={GAME.assets.libraryHeader}
             alt=""
             className="w-full h-full object-cover opacity-20"
           />
