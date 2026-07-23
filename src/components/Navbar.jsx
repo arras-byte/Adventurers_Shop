@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { ScrollText, LogOut, ShieldCheck } from 'lucide-react';
+import { LogOut, ShieldCheck } from 'lucide-react';
+import { Image } from '@/components/ui/image';
+import { GAME } from '@/lib/gameData';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -39,15 +41,15 @@ export default function Navbar() {
     >
       <div className="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <ScrollText className="w-6 h-6 text-[#C89116] group-hover:rotate-3 transition-transform" />
-          <div className="flex flex-col leading-none">
-            <span className="font-heading text-lg font-700 text-[#F4EBD0] tracking-wide">
-              Adventurer's Shop
-            </span>
-            <span className="text-[10px] text-[#3E7C85] tracking-[0.2em] uppercase mt-0.5 hidden sm:block">
-              The Living Tome
-            </span>
-          </div>
+          <Image
+            src={GAME.assets.logo}
+            alt="Adventurer's Shop"
+            className="h-9 w-auto group-hover:scale-105 transition-transform"
+            fittingType="fit"
+          />
+          <span className="text-[10px] text-[#3E7C85] tracking-[0.2em] uppercase mt-0.5 hidden sm:block">
+            The Living Tome
+          </span>
         </Link>
 
         <nav className="flex items-center gap-7">
