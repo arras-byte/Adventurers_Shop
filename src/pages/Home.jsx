@@ -25,7 +25,7 @@ export default function Home() {
           '-created_date',
           3
         );
-        setRecentPosts(posts || []);
+        setRecentPosts(Array.isArray(posts) ? posts : []);
       } catch (err) {
         console.error('Failed to load posts:', err);
       } finally {

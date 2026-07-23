@@ -17,7 +17,7 @@ export default function Blog() {
       try {
         const filter = isUnlocked ? {} : { published: true };
         const data = await base44.entities.BlogPost.filter(filter, '-created_date', 50);
-        setPosts(data || []);
+        setPosts(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error('Failed to load blog posts:', err);
       } finally {
