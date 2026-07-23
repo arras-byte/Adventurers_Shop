@@ -3,12 +3,15 @@ import { appParams } from '@/lib/app-params';
 
 const { appId, token, functionsVersion, appBaseUrl } = appParams;
 
-//Create a client with authentication required
+// In production (incl. external hosting), omit serverUrl/appBaseUrl so the SDK
+// routes API requests to Base44's hosted backend automatically.
+// In local dev, point them at the local Base44 dev server.
+const isDev = import.meta.env.DEV;
+
 export const base44 = createClient({
   appId,
   token,
   functionsVersion,
-  serverUrl: '',
   requiresAuth: false,
-  appBaseUrl
+  ...(isDev && { serverUrl: appBaseUrl, appBaseUrl })
 });
